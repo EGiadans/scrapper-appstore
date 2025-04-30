@@ -1,0 +1,16 @@
+{
+  "name": "scrapper-appstore",
+  "version": "1.0.0",
+  "description": "a web scrapper for getting appstore prices and other data",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "EGiadans",
+  "license": "ISC",
+  "types": "module",
+  "dependencies": {
+    "puppeteer": "^24.7.2"
+  },
+  "type": "module"
+}
