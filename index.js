@@ -9,8 +9,25 @@ const getPrice = async (url) => {
 
   const page = await browser.newPage();
 
+  const imageRequests = [];
+
+  page.on('response', async (response) => {
+    const request = response.request();
+    const url = request.url();
+    const resourceType = request.resourceType();
+
+    // Optional: log or filter
+    if (resourceType === 'image') {
+      // imageRequests.push(url);
+      if (url.includes('/image/thumb/') || url.includes('mzstatic.com')) {
+          imageRequests.push(url);
+        }
+    }
+  });
+
   // Navigate to the provided url, but before scrapping we need to wait for the content to be loaded
-  await page.goto(url,{ waitUntil: 'domcontentloaded' });
+  // we use "networkidle2" because we need to wait for the images to be loaded
+  await page.goto(url,{ waitUntil: 'networkidle2' });
 
   const priceData = await page.evaluate(() => {
     // This is the class the Apple App Store uses for the price element
@@ -29,7 +46,26 @@ const getPrice = async (url) => {
     return price;
   });
 
-  console.log('priceData: ', priceData);
+  const title = await page.evaluate(() => {
+    const el = document.querySelector('h1.product-header__title.app-header__title');
+    if (!el) return null;
+
+    return el.innerText.trim();
+  });
+
+  const subtitle = await page.evaluate(() => {
+    const el = document.querySelector('h2.product-header__subtitle.app-header__subtitle');
+    return el ? el.innerText.trim() : 'Not found or empty';
+  });
+
+  const data = {
+    title: title,
+    price: priceData,
+    image: imageRequests[0],
+    description: subtitle
+  }
+
+  console.log(data);
 
   await browser.close();
 }
@@ -39,4 +75,4 @@ const balatro = "https://apps.apple.com/mx/app/balatro/id6502453075";
 // Most expensive
 const priciest = "https://apps.apple.com/mx/app/cybertuner/id490451741";
 
-getPrice(minecraft);
+getPrice(priciest);
