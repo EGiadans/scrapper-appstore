@@ -1,6 +1,6 @@
-import puppeteer from "puppeteer";
+const puppeteer = require("puppeteer");
 
-const getPrice = async (url) => {
+const getAppData = async (url) => {
   // Set up a headless browser to begin scrapping
   const browser = await puppeteer.launch({
     headless: true,
@@ -65,14 +65,21 @@ const getPrice = async (url) => {
     description: subtitle
   }
 
-  console.log(data);
-
   await browser.close();
+
+  return data;
 }
 
-const minecraft = "https://apps.apple.com/mx/app/minecraft-explora-con-amigos/id479516143";
-const balatro = "https://apps.apple.com/mx/app/balatro/id6502453075";
-// Most expensive
-const priciest = "https://apps.apple.com/mx/app/cybertuner/id490451741";
+const myFunc = () => {
+  return 'test';
+}
 
-getPrice(priciest);
+module.exports = {
+  getAppData: getAppData,
+  getData: myFunc
+}
+
+// const minecraft = "https://apps.apple.com/mx/app/minecraft-explora-con-amigos/id479516143";
+// const balatro = "https://apps.apple.com/mx/app/balatro/id6502453075";
+// // Most expensive
+// const priciest = "https://apps.apple.com/mx/app/cybertuner/id490451741";

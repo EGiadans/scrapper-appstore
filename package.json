@@ -2,15 +2,18 @@
   "name": "scrapper-appstore",
   "version": "1.0.0",
   "description": "a web scrapper for getting appstore prices and other data",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./server.js"
   },
   "author": "EGiadans",
   "license": "ISC",
-  "types": "module",
   "dependencies": {
+    "express": "^5.1.0",
     "puppeteer": "^24.7.2"
   },
-  "type": "module"
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
 }
